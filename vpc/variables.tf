@@ -9,14 +9,14 @@ variable "vpc_cidr" {
   }
 }
 
-variables "private_subnets" {
+variable "private_subnets" {
     description  = "private subnets for vpc"
     type         = list(string)
     default      = ["10.0.1.0/24", "10.0.2.0/24]   
 }
 
 
-variables "private_subnets" {
+variable "private_subnets" {
     description  = "Public subnets for vpc"
     type         = list(string)
     default      = ["10.0.101.0/24", "10.0.102.0/24"]   
