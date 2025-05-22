@@ -1,7 +1,7 @@
-module vpc {
+module "vpc" {
   source = "./vpc"
 }
 
-module vpc {
+module "security-group" {
   source = "./security-group"
 }
