@@ -1,4 +1,4 @@
-data "aws_ami" "terraform_ami {
+data "aws_ami" "terraform_ami" {
 
   owners           = ["099720109477"]
 
@@ -18,7 +18,7 @@ data "aws_ami" "terraform_ami {
   }
 }
 
-resource "aws_key_pair" "deployer" {
+resource "aws_key_pair" "public_key" {
   key_name   = "terraform-key"
   public_key =  var.public_key
 }
