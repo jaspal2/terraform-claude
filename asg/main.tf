@@ -51,7 +51,7 @@ module "asg" {
   launch_template_description = "Terrafomr template practice"
   update_default_version      = true
 
-  image_id          = data.aws_ami.terraform_ami
+  image_id          = data.aws_ami.terraform_ami.id
   instance_type     = "t2.micro"
 
     block_device_mappings = [
