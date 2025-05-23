@@ -1,22 +1,19 @@
 data "aws_ami" "terraform_ami" {
-
+  most_recent      = true
   owners           = ["099720109477"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250305"]
   }
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
 }
+
 
 resource "aws_key_pair" "public_key" {
   key_name   = "terraform-key"
