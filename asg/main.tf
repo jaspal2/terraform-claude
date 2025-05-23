@@ -47,7 +47,7 @@ module "asg" {
   }
 
   # Launch template
-  launch_template_name        = var.launch_template_name
+  launch_template_name        = "Test template"
   launch_template_description = "Terrafomr template practice"
   update_default_version      = true
 
