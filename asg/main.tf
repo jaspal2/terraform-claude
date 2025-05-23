@@ -55,7 +55,7 @@ module "asg" {
   update_default_version      = true
 
   image_id          = data.aws_ami.terraform_ami
-  instance_type     = t2.micro
+  instance_type     = "t2.micro"
 
     block_device_mappings = [
     {
