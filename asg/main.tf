@@ -24,10 +24,10 @@ resource "aws_key_pair" "public_key" {
 }
 
 module "asg" {
-  source  = "terraform-aws-modules/autoscaling/aws"
+  source  = "../terraform-aws-autoscaling-master"
 
   # Autoscaling group
-  name = "example-asg"
+  name = "terraform-asg"
 
   min_size                  = var.min_size
   max_size                  = var.max_size
