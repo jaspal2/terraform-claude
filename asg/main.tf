@@ -54,6 +54,7 @@ module "asg" {
 
   image_id          = data.aws_ami.terraform_ami.id
   instance_type     = "t2.micro"
+  user_data = filebase64("${path.module}/nginx.sh")
 
     block_device_mappings = [
     {
