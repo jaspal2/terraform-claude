@@ -33,7 +33,7 @@ module "asg" {
   health_check_type         = "EC2"
   vpc_zone_identifier       = var.vpc_zone_identifier
   key_name                  = aws_key_pair.public_key.key_name
-  security_groups           = var.security_group_id
+  security_groups           = [var.security_group_id]
 
   instance_refresh = {
     strategy = "Rolling"
