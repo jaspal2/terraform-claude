@@ -1,6 +1,6 @@
 
 
-module "vote_service_sg" {
+module "terraform_service_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "user-service"

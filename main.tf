@@ -10,4 +10,5 @@ module "security-group" {
 module "asg" {
   source = "./asg"
   vpc_zone_identifier = module.vpc.public_subnets
+  security_group_id   = module.security-group.security_group_id
 }
