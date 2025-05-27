@@ -68,14 +68,7 @@ module "asg" {
     }
   ]
 
-  cpu_options = {
-    core_count       = 1
-    threads_per_core = 1
-  }
 
-  credit_specification = {
-    cpu_credits = "standard"
-  }
 
 
   # This will ensure imdsv2 is enabled, required, and a single hop which is aws security
