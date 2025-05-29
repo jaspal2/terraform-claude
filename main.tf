@@ -21,7 +21,3 @@ module "alb" {
 }
 
 
-resource "aws_autoscaling_attachment" "asg_attachment" {
-  autoscaling_group_name = module.asg.autoscaling_group_id
-  lb_target_group_arn    = module.alb.target_group_arn
-}
