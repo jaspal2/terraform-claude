@@ -6,7 +6,8 @@ resource "aws_lb_target_group" "test_target_group" {
   target_type = "instance"
 }
 
-/*module "alb" {
+
+module "alb" {
   source = "terraform-aws-modules/alb/aws"
 
   name    = "my-alb"
@@ -37,18 +38,5 @@ resource "aws_lb_target_group" "test_target_group" {
     }
   }
 
-  target_groups = {
-    ex-instance = {
-      name_prefix      = "h1"
-      protocol         = "HTTP"
-      port             = 80
-      target_type      = "instance"
-      target_id        = "i-0f6d38a07d50d080f"
-    }
-  }
 
-  tags = {
-    Environment = "Development"
-    Project     = "Example"
-  }
-}*/
+}

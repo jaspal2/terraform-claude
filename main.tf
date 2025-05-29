@@ -19,3 +19,9 @@ module "alb" {
   security_group = module.security-group.security_group_id
   public_subnets = module.vpc.public_subnets
 }
+
+
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = module.asg.
+  lb_target_group_arn    = module.alb.target_group_arn
+}
