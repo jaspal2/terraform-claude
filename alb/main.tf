@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "test_target_group" {
-  name     = "test_taget_group"
+  name     = "test-taget-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc_id
