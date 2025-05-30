@@ -7,7 +7,7 @@ module "alb" {
   vpc_id  = var.vpc_id
   subnets = var.public_subnets
   create_security_group = false
-  security_groups = var.security_group
+  security_groups = [var.security_group]
   ip_address_type = "ipv4"
 
   listeners = {
