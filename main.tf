@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "test-target-group" {
 # Create a new load balancer attachment
 resource "aws_autoscaling_attachment" "example" {
   autoscaling_group_name = module.asg.autoscaling_group_id
-   lb_target_group_arn    = aws_lb_target_group.test-target-group
+   lb_target_group_arn    = aws_lb_target_group.test-target-group.id
 }
 
 
