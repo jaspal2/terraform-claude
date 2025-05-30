@@ -21,10 +21,11 @@ module "alb" {
 }
 
 
-resource "aws_lb_target_group" "test_target_group" {
-  name     = "test-taget-group"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = module.vpc.vpc_id
-  target_type = "instance"
+# Create a new load balancer attachment
+resource "aws_autoscaling_attachment" "example" {
+  autoscaling_group_name = module.asg.autoscaling_group_id
+  elb                    = module.alb.alb_arn
 }
+
+
+
