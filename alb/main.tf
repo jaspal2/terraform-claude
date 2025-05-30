@@ -1,4 +1,10 @@
 
+# Create a new load balancer attachment
+resource "aws_autoscaling_attachment" "example" {
+  autoscaling_group_name = module.asg.autoscaling_group_id
+  elb                    = module.alb.alb_arn
+}
+
 
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
