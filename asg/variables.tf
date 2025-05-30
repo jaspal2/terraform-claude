@@ -31,6 +31,3 @@ variable "security_group_id" {
   type = string
 }
 
-variable "target_group_arn" {
-  type = string
-}
