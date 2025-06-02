@@ -34,8 +34,8 @@ module "alb" {
       port     = 80
       protocol = "HTTP"
       redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
+        port        = "80"
+        protocol    = "HTTP"
         status_code = "HTTP_301"
       }
       target_group_arn = aws_lb_target_group.test-target-group.arn

@@ -1,13 +1,15 @@
-#!/bin/sh
-sudo apt update -y  && sudo apt upgrade -y
-sudo apt install nginx -y
+#!/bin/bash
 
-# Start Nginx service
-sudo systemctl start nginx
-sudo apt install nginx -y
+# Set non-interactive mode
+export DEBIAN_FRONTEND=noninteractive
 
-# Start Nginx service
-sudo systemctl start nginx
+# Update system
+sudo apt update
 
-# Enable Nginx to start automatically on boot
+# Install nginx without interactive prompts
+sudo DEBIAN_FRONTEND=noninteractive apt install -y nginx
+
+# Enable and start nginx
 sudo systemctl enable nginx
+sudo systemctl start nginx
+
