@@ -1,9 +1,22 @@
 
-# Create a new load balancer attachment
-/*resource "aws_autoscaling_attachment" "example" {
-  autoscaling_group_name = module.asg.autoscaling_group_id
-  elb                    = module.alb.alb_arn
-}*/
+resource "aws_lb_target_group" "test-target-group" {
+  name     = "test-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    enabled             = true
+    healthy_threshold   = 2
+    interval            = 30
+    matcher             = "200"
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    unhealthy_threshold = 2
+  }
+}
 
 
 module "alb" {
@@ -16,18 +29,8 @@ module "alb" {
   security_groups = [var.security_group]
   ip_address_type = "ipv4"
 
-  listeners = {
-    ex-http-https-redirect = {
-      port     = 80
-      protocol = "HTTP"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
-    }
+  target_group_arn = aws_lb_target_group.test-target-group.arn
 
   }
 
 
-}
