@@ -28,20 +28,4 @@ module "alb" {
   create_security_group = false
   security_groups = [var.security_group]
   ip_address_type = "ipv4"
-
-  listeners = {
-    ex-http-https-redirect = {
-      port     = 80
-      protocol = "HTTP"
-      redirect = {
-        port        = "80"
-        protocol    = "HTTP"
-        status_code = "HTTP_301"
-      }
-      target_group_arn = aws_lb_target_group.test-target-group.arn
-    }
-
-  }
-
-
 }
