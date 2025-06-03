@@ -50,7 +50,7 @@ resource "random_string" "string_2" {
 
 resource "aws_security_group" "web-sg" {
 
-  name = randon_string.string_2.id
+  name = random_string.string_2.id
   ingress {
     from_port   = 80
     to_port     = 80
