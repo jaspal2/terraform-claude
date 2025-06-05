@@ -6,7 +6,7 @@ module "security-group" {
   source = "./security-group"
   vpc_id = module.vpc.vpc_id
 }
-
+/*
 module "asg" {
   source = "./asg"
   vpc_zone_identifier = module.vpc.public_subnets
@@ -28,10 +28,42 @@ module "alb" {
 }*/
 
 # Create a new load balancer attachment
-resource "aws_autoscaling_attachment" "example" {
+/*resource "aws_autoscaling_attachment" "example" {
   autoscaling_group_name = module.asg.autoscaling_group_id
    lb_target_group_arn    = module.alb.target_id
 }
 
+*/
+data "aws_ami" "terraform_ami" {
+  most_recent      = true
+  owners           = ["099720109477"]
 
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250305"]
+  }
+
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+
+resource "aws_key_pair" "public_key" {
+  key_name   = "terraform-key"
+  public_key =  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzUBT9HRDJYhhS6rS1cqlXug/Wnv33UZbQ4UIHombPH jaspal.singh@monash.edu"
+}
+
+
+resource "aws_instance" "app" {
+  count = 2
+
+  ami           = data.aws_ami.terraform_ami.id
+  instance_type = "t2.micro"
+
+  subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
+  security_groups = module.security-group.security_group_id
+}
 
