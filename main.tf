@@ -40,7 +40,7 @@ data "aws_ami" "terraform_ami" {
 
   filter {
     name   = "name"
-    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-*-amd64-minimal-*]
+    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-*-amd64-minimal-*"]
   }
 
 
