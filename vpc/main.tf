@@ -13,7 +13,7 @@ module "vpc" {
   name = "my-vpc"
   cidr = "10.0.0.0/16"
 
-  azs             = slice(data.aws_availability_zones.available_zones, 0 , 2)
+  azs             = slice(data.aws_availability_zones.available_zones.names, 0 , 2)
   private_subnets = var.private_subnets
   public_subnets  = var.public_subnets
   map_public_ip_on_launch = true
