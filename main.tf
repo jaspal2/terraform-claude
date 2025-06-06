@@ -64,6 +64,6 @@ resource "aws_instance" "app" {
   instance_type = "t2.micro"
 
   subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  security_groups = module.security-group.security_group_id
+  security_groups = [module.security-group.security_group_id]
 }
 
