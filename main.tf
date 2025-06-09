@@ -58,13 +58,13 @@ resource "aws_key_pair" "public_key" {
 
 
 resource "aws_instance" "app" {
-  count = 2
+  #count = 2
 
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
 
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  subnet_id = var.public_subnets[count.index]
+  subnet_id = "10.0.101.0/24"
   security_groups = [module.security-group.security_group_id]
 }
 
