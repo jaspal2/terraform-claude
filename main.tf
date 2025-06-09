@@ -63,7 +63,8 @@ resource "aws_instance" "app" {
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
 
-  subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
+  #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
+  subnet_id = var.public_subnets[count.index]
   security_groups = [module.security-group.security_group_id]
 }
 
