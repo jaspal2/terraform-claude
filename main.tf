@@ -38,7 +38,7 @@ resource "aws_autoscaling_attachment" "example" {
 }
 
 
-/*
+
 data "aws_ami" "terraform_ami" {
   most_recent      = true
   owners           = ["099720109477"]
@@ -55,15 +55,16 @@ data "aws_ami" "terraform_ami" {
   }
 }
 
-
+/*
 resource "aws_key_pair" "public_key" {
   key_name   = "terraform-key"
   public_key =  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzUBT9HRDJYhhS6rS1cqlXug/Wnv33UZbQ4UIHombPH jaspal.singh@monash.edu"
 }
 
-
+*/
 resource "aws_instance" "app" {
   #count = 2
+  depends_on = [module.vpc, module.security-group]
 
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
@@ -71,5 +72,5 @@ resource "aws_instance" "app" {
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
   subnet_id = "10.0.101.0/24"
   security_groups = [module.security-group.security_group_id]
-}*/
+}
 
