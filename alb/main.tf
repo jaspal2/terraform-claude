@@ -27,7 +27,7 @@ module "alb" {
   create_security_group = false
   security_groups = [var.security_group]
   ip_address_type = "ipv4"
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 }
 
 
