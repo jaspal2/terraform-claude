@@ -70,7 +70,7 @@ resource "aws_instance" "app" {
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
 
-  subnet_id = var.public_subnets[count.index]
+  subnet_id = module.vpc.public_subnets[count.index]
   #subnet_id = module.vpc.public_subnets[0]
   security_groups = [module.security-group.security_group_id]
 }
