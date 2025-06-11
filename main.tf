@@ -22,14 +22,14 @@ module "alb" {
   security_group = module.security-group.security_group_id
   public_subnets = module.vpc.public_subnets
 }
-
+/*
 resource "aws_lb_target_group" "test-target-group" {
   name     = "test-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
 }
-
+*/
 # Create a new load balancer attachment
 resource "aws_autoscaling_attachment" "example" {
   depends_on = [module.alb, module.asg]
@@ -62,6 +62,7 @@ resource "aws_key_pair" "public_key" {
 }
 
 */
+/*
 resource "aws_instance" "app" {
   #count = 2
   depends_on = [module.vpc, module.security-group]
@@ -70,7 +71,7 @@ resource "aws_instance" "app" {
   instance_type = "t2.micro"
 
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  subnet_id = "10.0.101.0/24"
+  subnet_id =
   security_groups = [module.security-group.security_group_id]
-}
+}*/
 
