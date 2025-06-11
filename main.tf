@@ -63,12 +63,6 @@ resource "aws_key_pair" "public_key" {
   public_key =  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzUBT9HRDJYhhS6rS1cqlXug/Wnv33UZbQ4UIHombPH jaspal.singh@monash.edu"
 }
 
-data "aws_subnet_ids" "public" {
-  vpc_id = module.vpc.vpc_id
-
-
-}
-
 resource "aws_instance" "app" {
   #count = 2
   depends_on = [module.vpc, module.security-group]
@@ -77,7 +71,7 @@ resource "aws_instance" "app" {
   instance_type = "t2.micro"
 
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  subnet_id = data.aws_subnet_ids.public[0]
+  subnet_id = module.vpc.public_subnet_arns[0]
   security_groups = [module.security-group.security_group_id]
 }
 
