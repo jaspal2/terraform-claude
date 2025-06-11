@@ -71,7 +71,7 @@ resource "aws_instance" "app" {
   instance_type = "t2.micro"
 
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  subnet_id = module.vpc.public_subnet_arns[0]
+  subnet_id = module.vpc.public_subnets
   security_groups = [module.security-group.security_group_id]
 }
 
