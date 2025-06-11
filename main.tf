@@ -7,7 +7,7 @@ module "security-group" {
   source = "./security-group"
   vpc_id = module.vpc.vpc_id
 }
-
+/*
 module "asg" {
   depends_on = [module.vpc, module.security-group]
   source = "./asg"
@@ -22,14 +22,17 @@ module "alb" {
   security_group = module.security-group.security_group_id
   public_subnets = module.vpc.public_subnets
 }
-/*
+
+
+
 resource "aws_lb_target_group" "test-target-group" {
   name     = "test-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
 }
-*/
+
+
 # Create a new load balancer attachment
 resource "aws_autoscaling_attachment" "example" {
   depends_on = [module.alb, module.asg]
@@ -38,7 +41,7 @@ resource "aws_autoscaling_attachment" "example" {
 }
 
 
-
+*/
 data "aws_ami" "terraform_ami" {
   most_recent      = true
   owners           = ["099720109477"]
@@ -55,14 +58,17 @@ data "aws_ami" "terraform_ami" {
   }
 }
 
-/*
 resource "aws_key_pair" "public_key" {
   key_name   = "terraform-key"
   public_key =  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzUBT9HRDJYhhS6rS1cqlXug/Wnv33UZbQ4UIHombPH jaspal.singh@monash.edu"
 }
 
-*/
-/*
+data "aws_subnet_ids" "public" {
+  vpc_id = module.vpc.vpc_id
+
+
+}
+
 resource "aws_instance" "app" {
   #count = 2
   depends_on = [module.vpc, module.security-group]
@@ -71,7 +77,7 @@ resource "aws_instance" "app" {
   instance_type = "t2.micro"
 
   #subnet_id = var.public_subnets[count.index % length(var.public_subnets)]
-  subnet_id =
+  subnet_id = data.aws_subnet_ids.public[0]
   security_groups = [module.security-group.security_group_id]
-}*/
+}
 
