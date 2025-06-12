@@ -51,7 +51,7 @@ data "aws_ami" "terraform_ami" {
     values = ["hvm"]
   }
 }
-
+/*
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
@@ -67,4 +67,4 @@ module "ec2_instance" {
     Terraform   = "true"
     Environment = "dev"
   }
-}
+}*/
