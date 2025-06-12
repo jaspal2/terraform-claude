@@ -11,7 +11,7 @@ module "security-group" {
 module "asg" {
   depends_on = [module.vpc, module.security-group]
   source = "./asg"
-  vpc_zone_identifier = module.vpc.public_subnets
+  vpc_zone_identifier = module.vpc.p
   security_group_id   = module.security-group.security_group_id
 }
 
@@ -37,8 +37,6 @@ resource "aws_autoscaling_attachment" "example" {
    lb_target_group_arn    = module.alb.target_id
 }
 
-
-/*
 data "aws_ami" "terraform_ami" {
   most_recent      = true
   owners           = ["099720109477"]
@@ -48,15 +46,25 @@ data "aws_ami" "terraform_ami" {
     values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-*-amd64-minimal-*"]
   }
 
-
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
 }
-/*
-resource "aws_key_pair" "public_key" {
-  key_name   = "terraform-key"
-  public_key =  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzUBT9HRDJYhhS6rS1cqlXug/Wnv33UZbQ4UIHombPH jaspal.singh@monash.edu"
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "single-instance"
+
+  instance_type          = "t2.micro"
+  key_name               = "user1"
+  monitoring             = true
+  vpc_security_group_ids = module.security-group.security_group_id
+  subnet_id              = module.vpc.public_subnets[0]
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
 }
-*/
