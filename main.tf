@@ -51,20 +51,14 @@ data "aws_ami" "terraform_ami" {
     values = ["hvm"]
   }
 }
-/*
-module "ec2_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "single-instance"
-
-  instance_type          = "t2.micro"
-  key_name               = "user1"
-  monitoring             = true
-  vpc_security_group_ids = module.security-group.security_group_id
-  subnet_id              = module.vpc.public_subnets[0]
+resource "aws_instance" "example" {
+  ami           = data.aws_ami.terraform_ami.id
+  instance_type = "t2.micro"
+  subnet_id     = module.vpc.public_subnets[0]
+  security_groups = [module.security-group.security_group_id]
 
   tags = {
-    Terraform   = "true"
-    Environment = "dev"
+    Name = "tf-example"
   }
-}*/
+}
