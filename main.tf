@@ -11,7 +11,7 @@ module "security-group" {
 module "asg" {
   depends_on = [module.vpc, module.security-group]
   source = "./asg"
-  vpc_zone_identifier = module.vpc.p
+  vpc_zone_identifier = module.vpc.private_subnets
   security_group_id   = module.security-group.security_group_id
 }
 
