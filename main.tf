@@ -96,6 +96,6 @@ resource "aws_instance" "example" {
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
   tags = {
-    Name = "tf-example"
+    Name = "test-count-${count.index}"
   }
 }
