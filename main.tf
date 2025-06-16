@@ -7,7 +7,7 @@ module "security-group" {
   source = "./security-group"
   vpc_id = module.vpc.vpc_id
 }
-
+/*
 module "asg" {
   depends_on = [module.vpc, module.security-group]
   source = "./asg"
@@ -35,7 +35,7 @@ resource "aws_autoscaling_attachment" "example" {
   depends_on = [module.alb, module.asg]
   autoscaling_group_name = module.asg.autoscaling_group_id
    lb_target_group_arn    = module.alb.target_id
-}
+}*/
 
 data "aws_ami" "terraform_ami" {
   most_recent      = true
@@ -53,12 +53,42 @@ data "aws_ami" "terraform_ami" {
 }
 
 resource "aws_instance" "example" {
+  depends_on = [aws_iam_role.test_role]
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[0]
   security_groups = [module.security-group.security_group_id]
+  iam_instance_profile = aws_iam_role.test_role.id
 
   tags = {
     Name = "tf-example"
+  }
+}
+
+
+resource "aws_iam_role" "test_role" {
+  name = "test_role"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sts:AssumeRole"
+            ],
+            "Principal": {
+                "Service": [
+                    "ec2.amazonaws.com"
+                ]
+            }
+        }
+    ]
+  })
+
+  tags = {
+    tag-key = "tag-value"
   }
 }
