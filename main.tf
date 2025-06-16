@@ -3,9 +3,9 @@ module "vpc" {
 }
 
 module "security-group" {
-  #depends_on = [module.vpc]
+  depends_on = [module.vpc]
   source = "./security-group"
-  #vpc_id = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
 }
 /*
 module "asg" {
