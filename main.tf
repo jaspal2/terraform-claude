@@ -52,18 +52,6 @@ data "aws_ami" "terraform_ami" {
   }
 }
 
-resource "aws_instance" "example" {
-  depends_on = [aws_iam_role.test_role]
-  ami           = data.aws_ami.terraform_ami.id
-  instance_type = "t2.micro"
-  subnet_id     = module.vpc.public_subnets[0]
-  security_groups = [module.security-group.security_group_id]
-  iam_instance_profile = aws_iam_role.test_role.name
-
-  tags = {
-    Name = "tf-example"
-  }
-}
 
 
 resource "aws_iam_role" "test_role" {
@@ -90,5 +78,18 @@ resource "aws_iam_role" "test_role" {
 
   tags = {
     tag-key = "tag-value"
+  }
+}
+
+resource "aws_instance" "example" {
+  depends_on = [aws_iam_role.test_role]
+  ami           = data.aws_ami.terraform_ami.id
+  instance_type = "t2.micro"
+  subnet_id     = module.vpc.public_subnets[0]
+  security_groups = [module.security-group.security_group_id]
+  iam_instance_profile = "test_role"
+
+  tags = {
+    Name = "tf-example"
   }
 }
