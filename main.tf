@@ -1,7 +1,7 @@
-/*module "vpc" {
+module "vpc" {
   source = "./vpc"
 }
-*/
+
 module "security-group" {
   #depends_on = [module.vpc]
   source = "./security-group"
