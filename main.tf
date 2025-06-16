@@ -81,13 +81,19 @@ resource "aws_iam_role" "test_role" {
   }
 }
 
+
+resource "aws_iam_instance_profile" "test_instance_profile"  {
+  name = "test_instance_profile"
+  role = aws_iam_role.test_role.name
+
+}
 resource "aws_instance" "example" {
   depends_on = [aws_iam_role.test_role]
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[0]
   security_groups = [module.security-group.security_group_id]
-  iam_instance_profile = "test_role"
+  iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
   tags = {
     Name = "tf-example"
