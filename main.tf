@@ -1,11 +1,11 @@
-module "vpc" {
+/*module "vpc" {
   source = "./vpc"
 }
-
+*/
 module "security-group" {
-  depends_on = [module.vpc]
+  #depends_on = [module.vpc]
   source = "./security-group"
-  vpc_id = module.vpc.vpc_id
+  #vpc_id = module.vpc.vpc_id
 }
 /*
 module "asg" {
@@ -52,8 +52,6 @@ data "aws_ami" "terraform_ami" {
   }
 }
 
-
-
 resource "aws_iam_role" "test_role" {
   name = "test_role"
 
@@ -88,12 +86,14 @@ resource "aws_iam_instance_profile" "test_instance_profile"  {
 
 }
 resource "aws_instance" "example" {
-  depends_on = [aws_iam_role.test_role]
+  #depends_on = [aws_iam_role.test_role]
+  count = var.instance_count * length(var.public_subnets)
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
-  subnet_id     = module.vpc.public_subnets[0]
+  subnet_id     = module.security-group[count.index % length(var.public_subnets)]
   security_groups = [module.security-group.security_group_id]
-  iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
+
+  #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
   tags = {
     Name = "tf-example"
