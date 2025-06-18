@@ -83,6 +83,8 @@ resource "aws_iam_role" "test_role" {
 locals {
   tags = {
     name = "test-env"
+    environment = "dev"
+    billing = depart1
   }
 }
 
@@ -93,13 +95,15 @@ resource "aws_iam_instance_profile" "test_instance_profile"  {
 }
 resource "aws_instance" "example" {
   #depends_on = [aws_iam_role.test_role]
-  count         = 1
+  count         = var.instance_count * var.public_subnets
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[count.index % length(module.vpc.public_subnets)]
   security_groups = [module.security-group.security_group_id]
+  associate_public_ip_address = (count.index%2 == 0 ? true : false)
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
-  tags = local.tags
+  tags = merge(local.tags)
+
 }
