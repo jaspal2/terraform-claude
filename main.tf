@@ -95,7 +95,7 @@ resource "aws_iam_instance_profile" "test_instance_profile"  {
 }
 resource "aws_instance" "example" {
   #depends_on = [aws_iam_role.test_role]
-  count         = var.instance_count * var.public_subnets
+  count         = var.instance_count * length(var.public_subnets)
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[count.index % length(module.vpc.public_subnets)]
