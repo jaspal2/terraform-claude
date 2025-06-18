@@ -24,3 +24,60 @@ variable "public_subnets" {
 
 
 
+variable "instance_name" {
+
+  type = map(object({
+    instance_type = string,
+    tags           = map(string)
+  }))
+  default = {
+    sandbox_one = {
+      instance_type = "t2.small"
+      tags = {
+        Name = "sandbox_one"
+      }
+    }
+}
+
+}
+
+variable "sandoxes" {
+  type = map(object({
+    instance_type = string,
+    tags          = map(string)
+  }))
+
+  default = {
+    sandox_1 = {
+      instance_type = "",
+      tags = {
+        name = ""
+      }
+    }
+  }
+}
+
+
+
+variable "map_understanding" {
+  type = map(object({
+
+  }))
+  default = {
+    sandbox_1 = {
+      instance_type = "t2.micro",
+      tags = {
+
+      }
+    }
+  }
+}
+
+
+variable "ma_string" {
+  type = map(string)
+  default = {
+    instance_name = "t2.micro"
+
+  }
+}

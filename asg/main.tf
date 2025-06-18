@@ -14,7 +14,6 @@ data "aws_ami" "terraform_ami" {
   }
 }
 
-
 resource "aws_key_pair" "public_key" {
   key_name   = "terraform-key"
   public_key =  var.public_key

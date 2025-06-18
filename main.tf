@@ -80,6 +80,12 @@ resource "aws_iam_role" "test_role" {
 }
 
 
+locals {
+  tags = {
+    name = "test-env"
+  }
+}
+
 resource "aws_iam_instance_profile" "test_instance_profile"  {
   name = "test_instance_profile"
   role = aws_iam_role.test_role.name
@@ -87,7 +93,7 @@ resource "aws_iam_instance_profile" "test_instance_profile"  {
 }
 resource "aws_instance" "example" {
   #depends_on = [aws_iam_role.test_role]
-  count = var.instance_count * length(var.public_subnets)
+  #count = var.instance_count * length(var.public_subnets)
   ami           = data.aws_ami.terraform_ami.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[count.index % length(module.vpc.public_subnets)]
@@ -95,7 +101,5 @@ resource "aws_instance" "example" {
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
-  tags = {
-    Name = "test-count-${count.index}"
-  }
+  tags = local.tags
 }
