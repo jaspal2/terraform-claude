@@ -84,7 +84,7 @@ locals {
   tags = {
     name = "test-env"
     environment = "dev"
-    billing = depart1
+    billing = "depart1"
   }
 }
 
