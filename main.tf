@@ -1,12 +1,12 @@
 module "vpc" {
   source = "./vpc"
 }
-
+/*
 module "security-group" {
   depends_on = [module.vpc]
   source = "./security-group"
   vpc_id = module.vpc.vpc_id
-}
+}*/
 /*
 module "asg" {
   depends_on = [module.vpc, module.security-group]
@@ -35,7 +35,7 @@ resource "aws_autoscaling_attachment" "example" {
   depends_on = [module.alb, module.asg]
   autoscaling_group_name = module.asg.autoscaling_group_id
    lb_target_group_arn    = module.alb.target_id
-}*/
+}
 
 data "aws_ami" "terraform_ami" {
   most_recent      = true
@@ -107,3 +107,63 @@ resource "aws_instance" "example" {
   tags = merge(local.tags)
 
 }
+*/
+
+/*
+data "aws_availability_zones" "available_zone" {
+  state = "available"
+  filter {
+    name = "zone-type"
+    values = ["availability-zone"]
+  }
+
+}
+
+
+data "aws_ami" "terraform_ami" {
+  most_recent      = true
+  owners           = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-*-amd64-minimal-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+locals {
+  is_prod            = var.environmen == "prod"
+  is_qa              = var.environmen  == "qa"
+  az_count           =  length(data.aws_availability_zones.available_zone.names)
+
+  instance_count     =  local.is_prod ?  length(data.aws_availability_zones.available_zone.names) : 2
+
+  vpc_cidr = is_prod ? "10.0.0.0/16" : "10.${local.is_qa ? 1 : 2}.0.0/16"
+  public_subnets = [
+    for index in range(local.az_count):
+            cidrsubnet(local.vpc_cidr, 8 , index+1 )
+  ]
+
+}
+
+
+resource "aws_instance" "example" {
+  #depends_on = [aws_iam_role.test_role]
+
+
+  ami           = data.aws_ami.terraform_ami.id
+  instance_type = "t2.micro"
+  subnet_id     = module.vpc.public_subnets[count.index % length(module.vpc.public_subnets)]
+  security_groups = [module.security-group.security_group_id]
+  associate_public_ip_address = (count.index%2 == 0 ? true : false)
+
+  #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
+
+  tags = merge(local.tags)
+
+}
+*/
