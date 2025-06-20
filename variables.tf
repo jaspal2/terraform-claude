@@ -45,7 +45,7 @@ variable "autoconfig" {
           time_zone        = string
 
     }))
-  })),
+  }))
   default = {
     app = {
       name = "autoscaling-test"
