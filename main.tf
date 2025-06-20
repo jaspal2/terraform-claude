@@ -160,10 +160,10 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = (count.index%2 == 0 ? true : false)
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
-
+/*
   tags = merge(local., {
     "server" : "web-server"
-  })
+  })*/
 
     }
 
