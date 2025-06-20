@@ -146,12 +146,6 @@ locals {
     for index in range(local.az_count):
             cidrsubnet(local.vpc_cidr, 8 , index+1 )
   ]
-
-  tags = {
-    "name" : "web-server"
-    "env" : var.environmen
-   }
-
 }
 
 
@@ -167,7 +161,7 @@ resource "aws_instance" "webserver" {
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 
-  tags = merge(local.tags, {
+  tags = merge(local., {
     "server" : "web-server"
   })
 
@@ -185,10 +179,10 @@ resource "aws_instance" "app-server" {
   associate_public_ip_address = (count.index%2 == 0 ? true : false)
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
-
+/*
   tags = merge(local.tags, {
     "server" : "web-server"
-  })
+  })*/
 
     }
 
