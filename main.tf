@@ -141,7 +141,7 @@ locals {
   az_count           =  length(data.aws_availability_zones.available_zone.names)
 
   instance_count     =  local.is_prod ? 3 : (local.is_qa ? 2 : 1)
-  vpc_cidr = is_prod ? "10.0.0.0/16" : "10.${local.is_qa ? 1 : 2}.0.0/16"
+  #vpc_cidr = is_prod ? "10.0.0.0/16" : "10.${local.is_qa ? 1 : 2}.0.0/16"
   public_subnets = [
     for index in range(local.az_count):
             cidrsubnet(local.vpc_cidr, 8 , index+1 )
