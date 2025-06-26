@@ -158,7 +158,7 @@ resource "aws_instance" "webserver" {
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnets[count.index % length(module.vpc.public_subnets)]
   security_groups = [module.security-group.security_group_id]
-  associate_public_ip_address = (count.index%2 == 0 ? true : false)
+  associate_public_ip_address = true
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 /*
@@ -177,7 +177,7 @@ resource "aws_instance" "app-server" {
   instance_type = "t2.micro"
   subnet_id     = module.vpc.private_subnets[count.index % length(module.vpc.private_subnets)]
   security_groups = [module.security-group.security_group_id]
-  associate_public_ip_address = (count.index%2 == 0 ? true : false)
+  associate_public_ip_address = false
 
   #iam_instance_profile = aws_iam_instance_profile.test_instance_profile.name
 /*
