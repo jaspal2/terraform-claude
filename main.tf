@@ -6,7 +6,10 @@ module "security-group" {
   depends_on = [module.vpc]
   source = "./security-group"
   vpc_id = module.vpc.vpc_id
+  env = var.environmen
 }
+
+
 /*
 module "asg" {
   depends_on = [module.vpc, module.security-group]
@@ -149,6 +152,40 @@ locals {
   ]
 }
 
+module "web-sg" {
+   source = "terraform-aws-modules/security-group/aws"
+
+  name        = "web-sg"
+  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  vpc_id      = module.vpc.vpc_id
+  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_rules            = ["https-443-tcp",  "ssh-tcp", "http-80-tcp"]
+  egress_rules              = ["all-all"]
+  tags = {
+    "name" : "${var.environmen}-web-sg"
+  }
+}
+
+
+module "app-server-sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "app-sg"
+  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  vpc_id      = module.vpc.vpc_id
+   computed_ingress_with_source_security_group_id = [
+    {
+      rule                     = "mysql-tcp"
+      source_security_group_id = module.web-sg.security_group_id
+    }
+  ]
+
+  egress_rules              = ["all-all"]
+
+  tags = {
+    "name" : "${var.environmen}-app-sg"
+  }
+}
 
 resource "aws_instance" "webserver" {
   #depends_on = [aws_iam_role.test_role]
